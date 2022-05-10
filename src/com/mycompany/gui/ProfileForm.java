@@ -20,11 +20,13 @@
 package com.mycompany.gui;
 
 import com.codename1.components.FloatingHint;
+import com.codename1.components.InfiniteProgress;
 import com.codename1.components.ScaleImageLabel;
 import com.codename1.ui.Button;
 import com.codename1.ui.CheckBox;
 import com.codename1.ui.Component;
 import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
@@ -38,6 +40,7 @@ import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
 import com.mycompany.entities.User;
+import com.mycompany.services.ServiceUtlisateur;
 
 /**
  * The user profile form
@@ -57,7 +60,7 @@ public class ProfileForm extends BaseForm {
         super.addSideMenu(res);
         
         tb.addSearchCommand(e -> {});
-        
+       
         
         Image img = res.getImage("profile-background.jpg");
         if(img.getHeight() > Display.getInstance().getDisplayHeight() / 3) {
@@ -66,15 +69,16 @@ public class ProfileForm extends BaseForm {
         ScaleImageLabel sl = new ScaleImageLabel(img);
         sl.setUIID("BottomPad");
         sl.setBackgroundType(Style.BACKGROUND_IMAGE_SCALED_FILL);
-        Button edit = new Button("edit");
-        //Button supprimer = new Button("supprimer");
-
-      
-        
-        add(LayeredLayout.encloseIn(
+        Button modif = new Button("Edit My Account");
+        Button supprimer = new Button("Delete My Account");
+     
+    
+       
+        add(BoxLayout.encloseY(
                 sl,
+                supprimer,
                 
-               edit
+              modif
                //supprimer
               
                
@@ -83,8 +87,18 @@ public class ProfileForm extends BaseForm {
                 
         )
         );
+        
+        
+        
+       /* Button next = new Button("next");
+        add(BorderLayout.SOUTH, BoxLayout.encloseY(
+                next
+               
+        ));*/
+        
+      
                   
-                
+     
        
                
                 
@@ -110,6 +124,45 @@ public class ProfileForm extends BaseForm {
         TextField profilepicture = new TextField(SessionManager.getProfilepicture());
         profilepicture.setUIID("TextFieldBlack");
         addStringValue("profilepicture", profilepicture);
+        
+          modif.addActionListener((edit)->{
+           InfiniteProgress ip = new InfiniteProgress();
+          final Dialog ipDlg    = ip.showInifiniteBlocking();
+          ServiceUtlisateur.EditUser(email.getText(), name.getText(), lastname.getText(), password.getText(), profilepicture.getText());
+           Dialog.show("Success","account is Modified!","OK",null);
+            SessionManager.setEmail(email.getText());
+            SessionManager.setName(name.getText());
+            SessionManager.setLastname(lastname.getText());
+            SessionManager.setPassword(password.getText());
+            SessionManager.setProfilepicture(profilepicture.getText());
+          
+                
+               new ProfileForm(res).show();
+               ipDlg.dispose();
+            refreshTheme();
+       });
+          
+          
+          
+          supprimer.addActionListener( l -> {
+
+     
+
+            int id=SessionManager.getId();
+            Dialog dig = new Dialog("Delete");
+            
+            if(dig.show("Suppression","You are about to delete your account ?","Cancel","yes")) {
+                dig.dispose();
+            }
+            else {
+                dig.dispose();
+                 }
+                //n3ayto l suuprimer men service Reclamation
+                if(ServiceUtlisateur.getInstance().deleteUser(id)) {
+                    new SignInForm(res).show();
+                }
+           
+        });
 
        
         
@@ -143,6 +196,8 @@ public class ProfileForm extends BaseForm {
                
 
     }
+   
+     
     
     private void addStringValue(String s, Component v) {
         add(BorderLayout.west(new Label(s, "PaddedLabel")).
@@ -150,3 +205,4 @@ public class ProfileForm extends BaseForm {
         add(createLineSeparator(0xeeeeee));
     }
 }
+

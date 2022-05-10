@@ -40,6 +40,8 @@ import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -61,11 +63,13 @@ public class ServiceUtlisateur {
         return instance;
         
     }
-   
+    
    public ServiceUtlisateur (){
        req = new ConnectionRequest(); 
    }
    //ajout de l'utlisateur
+   
+   
   public void ajouteruser(User user){
        String url=Statics.BASE_URL+"/ajouteruser?email=" +user.getEmail()+"&name=" 
 +user.getName()+"&lastname=" +user.getLastname()+"&password=" +user.getPassword()+"&profilepicture="+user.getProfilepicture();   
@@ -78,6 +82,8 @@ public class ServiceUtlisateur {
   NetworkManager.getInstance().addToQueueAndWait(req);//execution ta3 requete sinon yet3ada chay  
 }
   
+  
+  //login action 
   public void login(TextField email,TextField password,Resources rs) {
      
         
@@ -87,6 +93,7 @@ public class ServiceUtlisateur {
         req.setUrl(url);
         req.setPost(true);
         req.addResponseListener((e) ->{
+         
             
             JSONParser j = new JSONParser();
             
@@ -102,30 +109,31 @@ public class ServiceUtlisateur {
                 
             }
             else {
-                System.out.println("data =="+json);
                 
+                System.out.println("data =="+json);
+             
                 Map<String,Object> user = j.parseJSON(new CharArrayReader(json.toCharArray()));
                 
                 
+               float id = Float.parseFloat(user.get("id").toString());
+               SessionManager.setId((int)id);//jibt id ta3 user ly3ml login w sajltha fi session ta3i
                 
-            float id = Float.parseFloat(user.get("id").toString());
-                SessionManager.setId((int)id);//jibt id ta3 user ly3ml login w sajltha fi session ta3i
-                
-                SessionManager.setPassword(user.get("password").toString());
+               SessionManager.setPassword(user.get("password").toString());
                 SessionManager.setEmail(user.get("email").toString());
-                SessionManager.setName(user.get("name").toString());
+               SessionManager.setName(user.get("name").toString());
                 SessionManager.setLastname(user.get("lastname").toString());  
                 SessionManager.setProfilepicture(user.get("profilepicture").toString());
-                
-                     if(user.size() >0 ) { // l9a user
+                  
+                     if(user.size() >0 )  // l9a user
+                         
+                         
                         // new BaseForm().show();
-                      
+                        
                      new ProfileForm(rs).show();
-                     } else {
-                             Dialog.show("Echec d'authentification","Email or password incorrect","OK",null);
-                             email.setText("");
-                password.setText("");
-                     }
+                     
+  
+                     
+                     
                     
                     }
             
@@ -140,64 +148,128 @@ public class ServiceUtlisateur {
          //ba3d execution ta3 requete ely heya url nestanaw response ta3 server.
         NetworkManager.getInstance().addToQueueAndWait(req);
     }
+  
+  //modifier user 
+  public static void EditUser(String email,String name,String lastname, String password,String profilepicture){
+        
+    String url = Statics.BASE_URL+"/modifieruser?email="+email+"&name="+name+"&lastname="+lastname+"&password="+password+"&profilepicture="+profilepicture;
+                MultipartRequest req = new MultipartRequest();
+                
+                req.setUrl(url);
+                req.setPost(true);
+                
+               req.addArgument("id", String.valueOf(SessionManager.getId()));
+
+                req.addArgument("email", email);
+                 req.addArgument("name", name);
+                req.addArgument("lastname", lastname);
+                 req.addArgument("password", password);
+                req.addArgument("profilepicture", profilepicture);
+                System.out.println(email);
+                req.addResponseListener((response)-> {
+                    
+                    byte[] data = (byte[]) response.getMetaData();
+                    String s = new String(data);
+                    System.out.println(s);
+                                       
+                });
+                NetworkManager.getInstance().addToQueueAndWait(req);
+    }
+  
+  
+  //deleter a user 
+  
+  
+  
+  
+  
+   public boolean deleteUser (int id ) {
+        String url = Statics.BASE_URL +"/deleteuser?id="+id;
+        
+        req.setUrl(url);
+        
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                    
+                    req.removeResponseCodeListener(this);
+            }
+        });
+        
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return  resultOK;
+    }
    
+   
+   //affichage 
+   
+    
+    public ArrayList<User>affichageUsers() {
+        ArrayList<User> result = new ArrayList<>();
+        
+        String url = Statics.BASE_URL+"/display";
+        req.setUrl(url);
+        
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                JSONParser jsonp ;
+                jsonp = new JSONParser();
+                
+                try {
+                    Map<String,Object> mapUsers= jsonp.parseJSON(new CharArrayReader(new String(req.getResponseData()).toCharArray()));
+                    
+                    List<Map<String,Object>> listOfMaps =  (List<Map<String,Object>>) mapUsers.get("root");
+                    
+                    for(Map<String, Object> obj : listOfMaps) {
+                        User u = new User();
+                        
+                        //dima id fi codename one float 5outhouha
+                        float id = Float.parseFloat(obj.get("id").toString());
+                        
+                        String email = obj.get("email").toString();
+                        
+                        String name = obj.get("name").toString();
+                        
+                         String lastname = obj.get("lastname").toString();
+                        
+                        String password = obj.get("password").toString();
+                    
+                        
+                        String profilepicture = obj.get("profilepicture").toString();
+                        
+                        u.setId((int)id);
+                        u.setEmail(email);
+                        u.setName(name);
+                        u.setLastname(lastname);
+                        u.setPassword(password);
+                        u.setProfilepicture(profilepicture);
+                        
+                        //insert data into ArrayList result
+                        result.add(u);
+                       
+                    
+                    }
+                    
+                }catch(Exception ex) {
+                    
+                    ex.printStackTrace();
+                }
+            
+            }
+        });
+        
+      NetworkManager.getInstance().addToQueueAndWait(req);//execution ta3 request sinon yet3ada chy dima nal9awha
+
+        return result;
+        
+        
+    }
 
    
    
   
-   
-   
-   //affichage des utlisateurs
-   /*public ArrayList<User>affichageUser(){
-    ArrayList<User> result = new ArrayList<>();
-    String url = Statics.BASE_URL+"/display";
-    req.setUrl(url);
-    req.addResponseListener(new ActionListener<NetworkEvent>() {
-        @Override
-        public void actionPerformed(NetworkEvent evt) {
-            JSONParser jsonp;
-            jsonp = new JSONParser();
-            try {
-               Map<String,Object>mapUsers = jsonp.parseJSON(new CharArrayReader(new String(req.getResponseData()).toCharArray()));
-               
-               
-               List<Map<String,Object>> listOfMaps = (List<Map<String,Object>>) mapUsers.get("root");
-               
-               for(Map<String, Object> obj : listOfMaps)
-              
-               {
-                User us = new User();
-                
-                float id = Float.parseFloat(obj.get("id").toString());
-                String email = obj.get("email").toString();
-                String password = obj.get("password").toString();
-                String name = obj.get("name").toString();
-                String lastname= obj.get("lastname").toString();
-                String profilepicture = obj.get("profilepicture").toString();
-                
-                us.setId((int)id);
-                us.setEmail(email);
-                us.setPassword(password);
-                us.setName(name);
-                us.setLastname(lastname);
-                us.setProfilepicture(profilepicture);
-                
-                result.add(us);
-                
-                
-                
-            }
-            }catch(Exception ex) {
-               ex.printStackTrace();
-            }
-            
-        }
-        
-    });
-    NetworkManager.getInstance().addToQueueAndWait(req);
-    return result;
-       
-   }*/
+ 
    public String  getPasswordByEmail(String  email, Resources rs ) {
         
         
@@ -241,3 +313,4 @@ public class ServiceUtlisateur {
   
   
 }
+

@@ -35,6 +35,7 @@ import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.util.Resources;
+import com.mycompany.entities.User;
 import com.mycompany.services.ServiceUtlisateur;
 import com.sun.mail.smtp.SMTPTransport;
 import java.util.Date;

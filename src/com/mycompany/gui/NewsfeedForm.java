@@ -42,6 +42,7 @@ import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
+import com.mycompany.entities.User;
 
 /**
  * The newsfeed form
@@ -50,7 +51,7 @@ import com.codename1.ui.util.Resources;
  */
 public class NewsfeedForm extends BaseForm {
 
-    public NewsfeedForm(Resources res) {
+    public NewsfeedForm(Resources res,User u) {
         super("Newsfeed", BoxLayout.y());
         Toolbar tb = new Toolbar(true);
         setToolbar(tb);

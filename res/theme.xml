@@ -19,18 +19,21 @@
     <image name="oublier.png"  />
     <image name="profile-background.jpg"  />
     <image name="profile-pic.jpg" type="multi"  />
+    <image name="sigin.jpg"  />
     <image name="signin-background.jpg"  />
     <image name="signin-background.png"  />
+    <image name="signin.jpg"  />
+    <image name="signin.png"  />
     <image name="signup-background.jpg"  />
     <image name="smily.png" type="multi"  />
     <theme name="Theme">
         <val key="@includeNativeBool" value="true" />
         <val key="@tabPlacementInt" value="0" />
-        <val key="Activate.bgImage" value="activation-background.jpg" />
+        <val key="Activate.bgImage" value="sigin.jpg" />
         <val key="Activate.bgType" value="33" />
-        <val key="Activate.margin" value="0,0,0,0" />
+        <val key="Activate.margin" value="0.0,0.0,0.0,0.0" />
         <val key="Activate.padUnit" value="0,0,2,0" />
-        <val key="Activate.padding" value="0,3,0,0" />
+        <val key="Activate.padding" value="0.0,3.0,0.0,0.0" />
         <val key="Activate.transparency" value="255" />
         <val key="BottomPad.align" value="4" />
         <val key="BottomPad.fgColor" value="a2a1b8" />
@@ -41,13 +44,13 @@
         <val key="BottomPad.padding" value="0,0,0,0" />
         <val key="BottomPad.transparency" value="0" />
         <val key="Button.align" value="4" />
-        <border key="Button.border" type="round" roundBorderColor="16723285" opacity="255" strokeColor="0" strokeOpacity="255" strokeThickness="0.0" strokeMM="false" shadowSpread="10" shadowOpacity="0" shadowX="0.5" shadowY="0.5" shadowBlur="10.0" shadowMM="false" rectangle="true" />
+        <border key="Button.border" type="round" roundBorderColor="16737792" opacity="255" strokeColor="0" strokeOpacity="255" strokeThickness="0.0" strokeMM="false" shadowSpread="10" shadowOpacity="0" shadowX="0.5" shadowY="0.5" shadowBlur="10.0" shadowMM="false" rectangle="true" />
         <val key="Button.fgColor" value="ffffff" />
         <font key="Button.font" type="ttf" face="0" style="0" size="0" name="native:MainLight" family="native:MainLight" sizeSettings="3" actualSize="2.5" />
         <val key="Button.marUnit" value="2,2,2,2" />
-        <val key="Button.margin" value="3,3,2,2" />
+        <val key="Button.margin" value="3.0,3.0,2.0,2.0" />
         <val key="Button.padUnit" value="2,2,2,2" />
-        <val key="Button.padding" value="2,2,2,2" />
+        <val key="Button.padding" value="2.0,2.0,2.0,2.0" />
         <val key="Button.press#align" value="4" />
         <border key="Button.press#border" type="round" roundBorderColor="12982329" opacity="255" strokeColor="0" strokeOpacity="255" strokeThickness="0.0" strokeMM="false" shadowSpread="10" shadowOpacity="0" shadowX="0.5" shadowY="0.5" shadowBlur="10.0" shadowMM="false" rectangle="true" />
         <val key="Button.press#fgColor" value="ffffff" />
@@ -228,7 +231,7 @@
         <val key="SideCommand.transparency" value="0" />
         <val key="SideNavigationPanel.bgColor" value="ffffff" />
         <val key="SideNavigationPanel.transparency" value="255" />
-        <val key="SignIn.bgImage" value="Onboarding (2).png" />
+        <val key="SignIn.bgImage" value="sigin.jpg" />
         <val key="SignIn.bgType" value="33" />
         <val key="SignIn.margin" value="0.0,0.0,0.0,0.0" />
         <val key="SignIn.padUnit" value="0,0,2,0" />
@@ -307,11 +310,11 @@
         <val key="Toolbar.bgType" value="0" />
         <border key="Toolbar.border" type="empty" />
         <val key="Toolbar.transparency" value="0" />
-        <val key="Welcome.bgImage" value="welcome-background.jpg" />
+        <val key="Welcome.bgImage" value="signin.jpg" />
         <val key="Welcome.bgType" value="33" />
-        <val key="Welcome.margin" value="0,0,0,0" />
+        <val key="Welcome.margin" value="0.0,0.0,0.0,0.0" />
         <val key="Welcome.padUnit" value="0,0,2,0" />
-        <val key="Welcome.padding" value="0,0,0,0" />
+        <val key="Welcome.padding" value="0.0,0.0,0.0,0.0" />
         <val key="Welcome.transparency" value="255" />
         <val key="WelcomeMessage.align" value="4" />
         <val key="WelcomeMessage.fgColor" value="0" />

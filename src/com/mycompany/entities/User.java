@@ -18,6 +18,7 @@ public class User {
     private String profilepicture;
     private boolean ban;
     private boolean activate;
+    private String roles;
 
     public User() {
     }
@@ -125,9 +126,20 @@ public class User {
         this.activate = activate;
     }
 
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
+    }
+
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", email=" + email + ", lastname=" + lastname + ", name=" + name + ", lastname=" + lastname + ", profilepicture=" + profilepicture + ", ban=" + ban + ", activate=" + activate + '}';
-    }  
+        return "User{" + "id=" + id + ", email=" + email + ", password=" + password + ", name=" + name + ", lastname=" + lastname + ", profilepicture=" + profilepicture + ", ban=" + ban + ", activate=" + activate + ", roles=" + roles + '}';
+    }
+
+    
+    
     
 }
