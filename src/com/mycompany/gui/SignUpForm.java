@@ -19,14 +19,18 @@
 
 package com.mycompany.gui;
 
+import com.codename1.capture.Capture;
 import com.codename1.components.FloatingHint;
 import com.codename1.components.InfiniteProgress;
+import com.codename1.components.ScaleImageLabel;
+import com.codename1.io.FileSystemStorage;
 import com.codename1.io.Log;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
 import com.codename1.ui.Form;
+import com.codename1.ui.Image;
 import com.codename1.ui.Label;
 import com.codename1.ui.TextField;
 import com.codename1.ui.Toolbar;
@@ -36,6 +40,7 @@ import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.util.Resources;
 import com.mycompany.entities.User;
 import com.mycompany.services.ServiceUtlisateur;
+import java.io.IOException;
 
 /**
  * Signup UI
@@ -43,6 +48,7 @@ import com.mycompany.services.ServiceUtlisateur;
  * @author Shai Almog
  */
 public class SignUpForm extends BaseForm {
+    private String avatar=null;
 
     public SignUpForm(Resources res) {
         super(new BorderLayout());
@@ -60,14 +66,22 @@ public class SignUpForm extends BaseForm {
         TextField confirmPassword = new TextField("", "Confirm Password", 20, TextField.PASSWORD);
         TextField name = new TextField("", "name", 20, TextField.ANY);
         TextField lastname = new TextField("", "lastname", 20, TextField.ANY);
-        TextField profilepicture= new TextField("", "profilepicture", 20, TextField.ANY);
-       
+                TextField profilepicture= new TextField("", "profilepicture", 20, TextField.ANY);
+
+        
+        // ScaleImageLabel img_viewer = new ScaleImageLabel();
+
+     
+        
+        
+        
+        
         email.setSingleLineTextArea(false);
         password.setSingleLineTextArea(false);
         confirmPassword.setSingleLineTextArea(false);
          name.setSingleLineTextArea(false);
           lastname.setSingleLineTextArea(false);
-           profilepicture.setSingleLineTextArea(false);
+        profilepicture.setSingleLineTextArea(false);
         Button next = new Button("Next");
         Button signIn = new Button("Sign In");
 
@@ -94,6 +108,7 @@ public class SignUpForm extends BaseForm {
                 createLineSeparator(),
                  new FloatingHint(profilepicture),
                 createLineSeparator()
+                
         );
         content.setScrollableY(true);
         add(BorderLayout.CENTER, content);
